@@ -50,3 +50,7 @@ A centralized engine that bridges the gap between raw web data and ML-ready feat
 - **Weeks 4-6:** LLM Council Integration (LangChain Consensus Logic).
 - **Weeks 7-9:** API Development & Chatbot Interface (FastAPI + React).
 - **Weeks 10-12:** Observability & Scaling (K8s deployment + Grafana Dashboards).
+
+7. Data Ingestion & ML Loop:
+
+Validation Logic (Day 4): Implemented a Multi-Agent "Council" using LangChain and Pydantic. This ensures semantic integrity and prevents "Data Poisoning" of the Raksh ML models.
