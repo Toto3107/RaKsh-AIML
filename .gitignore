@@ -1,3 +1,22 @@
-.env
+# Virtual Environment
 venv/
-.venv/
+env/
+.env
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Scrapy & Data
+.scrapy/
+*.json
+*.csv
+*.log
+
+# IDE Specific
+.vscode/
+.idea/
+
+# Database / OS
+.DS_Store

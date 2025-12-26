@@ -1,0 +1,17 @@
+# Web Scraping
+scrapy
+scrapy-playwright
+
+# AI/ML & Orchestration
+langchain
+langchain-google-genai
+pydantic
+python-dotenv
+
+# Database
+pymongo
+certifi
+
+# API (For Day 6)
+fastapi
+uvicorn
