@@ -35,13 +35,17 @@ A centralized engine that bridges the gap between raw web data and ML-ready feat
 ### C. Observability Tier (Prometheus & ELK)
 - **Monitoring:** Scraping success rates and LLM token costs via Prometheus/Grafana.
 - **Logging:** Centralized logs via Filebeat/ELK to track data lineage and audit the "Council's" decisions.
+-**API Implementation (Day 6)**: Developed a RESTful API using FastAPI. Implemented dynamic filtering and pagination to serve verified datasets to the Raksh ML model and frontend interfaces. Includes auto-generated OpenAPI (Swagger) documentation.
+
 
 ## 5. Technology Stack
 - **Languages:** Python (Core), Bash (Automation).
 - **Orchestration:** LangGraph, Docker Compose, Kubernetes.
 - **Primary Scraper:** Scrapy (for high-concurrency background ingestion).
 - **Dynamic Handler:** Playwright (integrated via `scrapy-playwright` for JS-rendered government portals).
-- **Extraction Logic:** LLM-based semantic extraction (ScrapeGraphAI) to handle varying site structures without manual CSS maintenance.
+- **Extraction Logic:** LLM-based semantic extraction (ScrapeGraphAI) to handle varying site structures without 
+-**Storage Layer (Day 5)**: Integrated MongoDB Atlas for cloud-native data persistence. Implemented a "Filtering Pipeline" where only Council-verified data (Confidence > 0.7) is promoted to the production database.
+manual CSS maintenanc**e.
 - **Data Storage:** MongoDB (Unstructured), ChromaDB (Vector Search).
 - **DevOps:** GitHub Actions (CI/CD), Prometheus, Grafana, ELK Stack.
 
