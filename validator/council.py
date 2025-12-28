@@ -45,6 +45,7 @@ for entry in raw_data[:5]:
         print(f"✅ Data Persistence Success: ID {db_id}")
     else:
         print("❌ Data Rejected by Council.")
+        
 # 3. Main Execution
 if __name__ == "__main__":
     if not os.path.exists("raw_data.json"):
