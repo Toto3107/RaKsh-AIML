@@ -42,7 +42,7 @@ raksh_engine/
 1. Clone the Repository
 Bash
 
-git clone https://github.com/yourusername/RaKsh-AIML.git
+git clone https://github.com/Toto3107/RaKsh-AIML.git
 cd raksh-engine
 2. Configure Environment Variables
 Create a .env file in the root directory:
@@ -50,7 +50,7 @@ Create a .env file in the root directory:
 Code snippet
 
 GOOGLE_API_KEY=your_gemini_api_key_here
-# Optional: MONGO_CONNECTION_STRING=your_mongodb_uri
+//Optional: MONGO_CONNECTION_STRING=your_mongodb_uri
 3. Option A: Local Setup (Native)
 Bash
 
