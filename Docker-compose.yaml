@@ -1,0 +1,11 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - .:/app  # Hot-reloading: changes in code reflect inside the container
+
+  # You can trigger the scraper or validator via 'docker exec'

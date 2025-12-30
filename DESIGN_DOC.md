@@ -58,3 +58,5 @@ manual CSS maintenanc**e.
 7. Data Ingestion & ML Loop:
 
 Validation Logic (Day 4): Implemented a Multi-Agent "Council" using LangChain and Pydantic. This ensures semantic integrity and prevents "Data Poisoning" of the Raksh ML models.
+
+Deployment (Day 7): Containerized the entire microservice architecture using Docker. This ensures 100% reproducibility for GSoC mentors and simplifies horizontal scaling in cloud environments.

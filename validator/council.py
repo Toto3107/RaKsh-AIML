@@ -2,7 +2,7 @@ import json
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from .schema import VerifiedData
-from database.mongo_client import save_to_db
+from database.db_handler import save_verified_data
 # 1. Initialize Gemini
 # We use 'gemini-1.5-flash' because it's fast and free
 llm = ChatGoogleGenerativeAI(
@@ -31,7 +31,9 @@ def run_council(raw_entry):
     return response
 
 
-for entry in raw_data[:5]:
+with open("raw_data.json") as f:
+    data = json.load(f)
+for entry in data:
     decision = run_council(entry)
     
     if decision.is_valid and decision.confidence_score > 0.7:
@@ -41,7 +43,7 @@ for entry in raw_data[:5]:
             "validation": decision.dict(), # Convert Pydantic to Dict
             "status": "ready_for_ml"
         }
-        db_id = save_to_db(final_doc)
+        db_id = save_verified_data(final_doc)
         print(f"✅ Data Persistence Success: ID {db_id}")
     else:
         print("❌ Data Rejected by Council.")
