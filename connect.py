@@ -1,9 +1,10 @@
 from pymongo.mongo_client import MongoClient
 
 from pymongo.server_api import ServerApi
+from dotenv import load_dotenv
 # to check connection with mongo atlas
 import os
-
+load_dotenv()
 uri = os.getenv("MONGO_CONNECTION_STRING")
 
 
