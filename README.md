@@ -1,5 +1,3 @@
-This is the most critical file in your repository. For a GSoC mentor, the README.md is your first impression. It needs to be professional, scannable, and technically sound.
-
 🛡️ Raksh-Engine: Dynamic Data-on-Demand Pipeline
 Raksh-Engine is a centralized, agentic data ingestion and validation engine built to bridge the gap between messy web data and high-stakes ML models. Designed as a foundational component for the Raksh Groundwater Monitoring Project, it automates the process of finding, cleaning, and verifying environmental data in real-time.
 
@@ -44,7 +42,7 @@ raksh_engine/
 1. Clone the Repository
 Bash
 
-git clone https://github.com/yourusername/raksh-engine.git
+git clone https://github.com/yourusername/RaKsh-AIML.git
 cd raksh-engine
 2. Configure Environment Variables
 Create a .env file in the root directory:
