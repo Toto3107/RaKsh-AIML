@@ -3,8 +3,10 @@ import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from .schema import VerifiedData
 from database.db_handler import save_verified_data
+from dotenv import load_dotenv
 # 1. Initialize Gemini
 # We use 'gemini-1.5-flash' because it's fast and free
+load_dotenv()
 llm = ChatGoogleGenerativeAI(
     model="models/gemini-2.5-flash",
     temperature=0.3,

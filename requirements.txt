@@ -11,6 +11,7 @@ python-dotenv
 # Database
 pymongo
 certifi
+tinydb
 
 # API (For Day 6)
 fastapi
