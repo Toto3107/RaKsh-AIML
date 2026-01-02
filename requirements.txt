@@ -16,3 +16,7 @@ tinydb
 # API (For Day 6)
 fastapi
 uvicorn
+
+
+# UI
+streamlit

@@ -1,9 +1,14 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
-class VerifiedData(BaseModel):
-    is_valid: bool = Field(description="Is this data reliable and relevant?")
-    confidence_score: float = Field(description="Score from 0.0 to 1.0")
-    cleaned_text: str = Field(description="The text with ads/noise removed")
-    entities: List[str] = Field(description="Key topics found (e.g., 'Groundwater', 'Punjab')")
-    skeptic_notes: Optional[str] = Field(description="Any red flags found by the Skeptic")
+class EnvironmentalEntry(BaseModel):
+    parameter: str = Field(description="The name of the variable, e.g., Groundwater Level, PH, Nitrate")
+    value: float = Field(description="The numeric value found in the text")
+    unit: str = Field(description="The unit of measurement (e.g., mg/L, meters, index)")
+    location: str = Field(description="The specific city, region, or station name")
+    timestamp: str = Field(description="The date or year the data refers to (ISO format preferred)")
+
+class VerifiedDataset(BaseModel):
+    is_relevant: bool
+    confidence_score: float
+    extracted_data: List[EnvironmentalEntry] # This allows multiple readings from one page
