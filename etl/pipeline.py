@@ -3,6 +3,7 @@ import json
 import os
 import time
 from validator.council import process_raw_to_structured
+from agent.searcher import find_new_sources
 class RakshETL:
     def __init__(self, query):
         self.query = query

@@ -2,9 +2,17 @@ import hashlib
 from langchain_google_genai import ChatGoogleGenerativeAI
 from database.db_handler import verified_table, Query
 from .schema import VerifiedDataset
-
+import os 
+from dotenv import load_dotenv
+load_dotenv()
 # 1. FIX: Updated model string for 2026 stability
-llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash-latest") 
+llm = ChatGoogleGenerativeAI(
+    model="models/gemini-1.5-flash", 
+    google_api_key=os.getenv("GOOGLE_API_KEY"),
+    temperature=0,
+    # Adding this helps if the library is defaulting to an old API version
+    version="v1" 
+)
 structured_llm = llm.with_structured_output(VerifiedDataset)
 
 def generate_unique_id(record):
