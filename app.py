@@ -1,70 +1,73 @@
 import streamlit as st
 import pandas as pd
 import json
-from agent.searcher import find_new_sources
-from validator.council import process_raw_to_structured  # Import your Council logic
-from database.db_handler import verified_table
-import subprocess
 import os
+import subprocess
+from agent.searcher import find_new_sources
+from validator.council import process_raw_to_structured
+from database.db_handler import verified_table
 
-# --- APP LAYOUT ---
-st.title("🛡️ Raksh-Engine: Autonomous Data Refinery")
+st.set_page_config(page_title="Raksh Engine v1.0", layout="wide")
 
-query = st.text_input("Describe the dataset you need:", placeholder="e.g. Ground water levels in Maharashtra 2024")
+st.title("🛡️ Raksh-Engine: Autonomous Refinery")
 
-if st.button("🚀 Generate Verified Dataset"):
+# --- DATA REFRESH LOGIC ---
+# This ensures the UI updates whenever the database changes
+def get_current_data():
+    return pd.DataFrame(verified_table.all())
+
+# --- USER INPUT ---
+query = st.text_input("What data should I extract?", placeholder="e.g. PH levels in Yamuna River 2024")
+
+if st.button("🚀 Start Extraction Pipeline"):
     if not query:
-        st.warning("Please enter a request.")
+        st.error("Please enter a query.")
     else:
-        # 1. SEARCH PHASE
-        with st.spinner("🕵️ Agent finding sources..."):
+        with st.status("Pipeline Running...", expanded=True) as status:
+            # 1. SEARCH
+            st.write("🔎 Searching for sources...")
             urls = find_new_sources(query)
-            st.success(f"Found {len(urls)} relevant sources.")
-
-        # 2. INGEST & VALIDATE PHASE
-        progress_bar = st.progress(0)
-        for idx, url in enumerate(urls):
-            st.write(f"⏳ Processing: {url}")
             
-            # Run Spider
-            # Note: We use a temp file for raw data to avoid mixing old/new runs
-            subprocess.run(["scrapy", "crawl", "raksh_spider", "-a", f"start_url={url}", "-o", "temp_raw.json"])
-            
-            # Run Council on the raw data just collected
-            if os.path.exists("temp_raw.json"):
-                with open("temp_raw.json", "r") as f:
-                    raw_data = json.load(f)
-                    for entry in raw_data:
-                        # This is the "Refinery" step
-                        process_raw_to_structured(entry)
+            # 2. SCRAPE & VALIDATE
+            for url in urls:
+                st.write(f"🕸️ Scraping: {url}")
+                # We save to a specific temp file for THIS run
+                temp_file = "current_scrape.json"
+                if os.path.exists(temp_file): os.remove(temp_file)
                 
-                os.remove("temp_raw.json") # Clean up for the next URL
+                subprocess.run(["scrapy", "crawl", "raksh_spider", "-a", f"start_url={url}", "-o", temp_file])
+                
+                # 3. VERIFICATION (The Missing Link)
+                if os.path.exists(temp_file):
+                    st.write(f"⚖️ Council verifying data from {url}...")
+                    with open(temp_file, "r") as f:
+                        raw_results = json.load(f)
+                        for entry in raw_results:
+                            process_raw_to_structured(entry) # This writes to database.json
+                    os.remove(temp_file)
             
-            progress_bar.progress((idx + 1) / len(urls))
+            status.update(label="✅ Extraction Complete!", state="complete")
 
-        st.balloons()
-        st.success("Refinery complete! Your verified dataset is ready.")
+# --- THE DOWNLOAD & DISPLAY SECTION (Bug Fix) ---
+st.header("📊 Verified Database")
+df = get_current_data()
 
-# --- THE VERIFIED FILE SECTION ---
-st.markdown("---")
-st.subheader("📥 Download Verified Dataset")
-
-# Fetch data from TinyDB
-verified_data = verified_table.all()
-
-if verified_data:
-    df = pd.DataFrame(verified_data)
-    
-    # Show the table to the user
+if not df.empty:
+    # Display the data
     st.dataframe(df, use_container_width=True)
     
-    # CREATE THE DOWNLOAD BUTTON
-    csv_data = df.to_csv(index=False).encode('utf-8')
+    # DOWNLOAD OPTION
+    csv = df.to_csv(index=False).encode('utf-8')
     st.download_button(
-        label="💾 Download Verified CSV",
-        data=csv_data,
-        file_name=f"raksh_{query.replace(' ', '_')}.csv",
-        mime="text/csv"
+        label="📥 Download Structured Dataset (CSV)",
+        data=csv,
+        file_name="verified_raksh_data.csv",
+        mime="text/csv",
+        key='download-csv'
     )
+    
+    if st.button("🗑️ Reset Database"):
+        verified_table.truncate()
+        st.rerun()
 else:
-    st.info("The database is currently empty. Run the extraction above to generate data.")
+    st.info("Database is empty. Run a search to populate it.")
