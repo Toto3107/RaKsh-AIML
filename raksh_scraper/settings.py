@@ -31,7 +31,7 @@ ROBOTSTXT_OBEY = True
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = True
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -96,3 +96,14 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 # Also, tell the spider to be a bit more "polite" to avoid bans
 DOWNLOAD_DELAY = 2  # Wait 2 seconds between requests
 ROBOTSTXT_OBEY = False # Often necessary if the site blocks bots via robots.txt
+
+
+# 2. Replace standard downloaders with Impersonate handlers
+DOWNLOAD_HANDLERS = {
+    "http": "scrapy_impersonate.ImpersonateDownloadHandler",
+    "https": "scrapy_impersonate.ImpersonateDownloadHandler",
+}
+# Options: chrome110, chrome124, safari18, edge101
+IMPERSONATE_BROWSER = "chrome124"
+# 3. Disable Scrapy's default UA; curl_cffi will generate a real one
+USER_AGENT = None

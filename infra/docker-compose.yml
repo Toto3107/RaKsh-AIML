@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  engine:
+    build: 
+      context: .
+      dockerfile: Dockerfile 
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    ports:
+      - "8501:8501"
+    command: streamlit run app.py

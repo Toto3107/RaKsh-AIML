@@ -1,13 +1,13 @@
 # Web Scraping
 scrapy
 scrapy-playwright
-
+scrapy-impersonate==1.1.0  # Bridges Scrapy and curl_cffi
 # AI/ML & Orchestration
 langchain
 langchain-google-genai
 pydantic
 python-dotenv
-
+curl_cffi>=0.7.0           # The core TLS impersonator
 # Database
 pymongo
 certifi
